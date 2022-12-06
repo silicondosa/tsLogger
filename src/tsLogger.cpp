@@ -10,7 +10,8 @@ int tsLogger::initLogger()
 	logBuffer		= (char*)	malloc(logBufferSize);
 	preHeader		= (char*)	malloc(defHeaderBufSize);
 	csvHeader		= (char*)	malloc(defHeaderBufSize);
-	dataBuffer		= (double*)	malloc(defDataBufSize * sizeof(double));
+	dataBuffer		= (double*)	malloc(defDataBufSize * sizeof(double)); // SCR TODO: replace with vector of tsDataPoint objects
+ 
 
 	// Open data file
 	if (fileType == _TSLOGGER_CSV) {

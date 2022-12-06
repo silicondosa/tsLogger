@@ -2,6 +2,8 @@
 #ifndef _TSLOGGER_H
 #define _TSLOGGER_H
 #include <cstdio>
+#include <string>
+#include <iostream>
 
 #define defaultFilePath		"C:\\data"
 #define defaultFileName		"timeseriesData"
@@ -16,6 +18,11 @@ typedef enum _tsLogFileType
 	_TSLOGGER_BINARY		= 1
 }tsLogFileType;
 
+class tsDataPoint {
+	std::string	dataPointName;
+	// variant data pointer
+};
+
 class tsLogger {
 	// File properties
 	char				fileName[fileNameLength];
@@ -27,7 +34,7 @@ class tsLogger {
 	char*				logBuffer;
 	char*				preHeader;
 	char*				csvHeader;
-	double*				dataBuffer;
+	double*				dataBuffer; // SCR TODO: replace with vector of tsDataPoint objects
 
 	// Logger object parameters
 	unsigned			numHeaderLines;
