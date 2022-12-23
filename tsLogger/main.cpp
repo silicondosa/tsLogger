@@ -7,6 +7,18 @@
 int main()
 {
     std::cout << "Hello World!\n";
+    tsLogger LoggerA;
+    char filePathA[256];
+    LoggerA.getFilePath(filePathA, 256);
+    std::cout<<"File path for log file A: "<<filePathA<<std::endl;
+
+    char newFileName[] = "testFile.csv";
+    tsLogger LoggerB(newFileName);
+    char filePathB[256];
+    LoggerB.getFilePath(filePathB, 256);
+    std::cout<<"File path for log file B: "<<filePathB<<std::endl;
+
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

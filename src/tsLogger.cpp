@@ -15,11 +15,11 @@ int tsLogger::initLogger()
 
 	// Open data file
 	if (fileType == _TSLOGGER_CSV) {
-		logFilePtr = fopen(fileName, "w+");
+		fopen_s(&(this->logFilePtr), fileName, "w+");
 		setvbuf(logFilePtr, logBuffer, _IOLBF, logBufferSize);
 	}
 	else {
-		logFilePtr = fopen(fileName, "wb+");
+		fopen_s(&(this->logFilePtr), fileName, "wb+");
 	}
 
 	// Set internal parameters of the logger object
@@ -32,18 +32,40 @@ int tsLogger::initLogger()
 tsLogger::tsLogger()
 {
 	time_t unixTime = time(NULL);
-	tm* localTime = localtime(&unixTime);
+	tm localTime;
+	localtime_s(&localTime, &unixTime);
 
 	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d-%02d.csv",
 										defaultFilePath,			/*File directory*/
 										defaultFileName,			/*File name prefix*/
-										localTime->tm_year+1990,	/*Current year*/
-										localTime->tm_mon+1,		/*Current Month*/
-										localTime->tm_mday,			/*Current Date*/
-										localTime->tm_hour,			/*Current Hour of day   (24-hour mode)*/
-										localTime->tm_min,			/*Current Minute of day (24-hour mode)*/
-										localTime->tm_sec);			/*Current Seconds*/
+										localTime.tm_year+1990,		/*Current year*/
+										localTime.tm_mon+1,			/*Current Month*/
+										localTime.tm_mday,			/*Current Date*/
+										localTime.tm_hour,			/*Current Hour of day   (24-hour mode)*/
+										localTime.tm_min,			/*Current Minute of day (24-hour mode)*/
+										localTime.tm_sec);			/*Current Seconds*/
 	fileType		= _TSLOGGER_CSV;
+	logBufferSize	= defLogBufferSize;
+
+	initLogger();
+}
+
+tsLogger::tsLogger(tsLogFileType logFileType)
+{
+	time_t unixTime = time(NULL);
+	tm localTime;
+	localtime_s(&localTime, &unixTime);
+
+	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d-%02d.csv",
+										defaultFilePath,			/*File directory*/
+										defaultFileName,			/*File name prefix*/
+										localTime.tm_year+1990,		/*Current year*/
+										localTime.tm_mon+1,			/*Current Month*/
+										localTime.tm_mday,			/*Current Date*/
+										localTime.tm_hour,			/*Current Hour of day   (24-hour mode)*/
+										localTime.tm_min,			/*Current Minute of day (24-hour mode)*/
+										localTime.tm_sec);			/*Current Seconds*/
+	fileType		= logFileType;
 	logBufferSize	= defLogBufferSize;
 
 	initLogger();
@@ -74,6 +96,11 @@ tsLogger::tsLogger(char* logFileName, tsLogFileType logFileType, size_t logBuffe
 	logBufferSize	= logBufferMaxSize;
 
 	initLogger();
+}
+
+void tsLogger::getFilePath(char* pathDestination, size_t pathDestinationLength)
+{
+	strcpy_s(pathDestination, pathDestinationLength, this->fileName);
 }
 
 tsLogger::~tsLogger()

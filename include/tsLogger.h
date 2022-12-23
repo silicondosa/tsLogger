@@ -46,10 +46,12 @@ class tsLogger {
 	// Public member functions
 public:
 	tsLogger();
+	tsLogger(tsLogFileType logFileType);
 	tsLogger(char* logFileName);
 	tsLogger(char* logFileName, tsLogFileType logFileType);
 	tsLogger(char* logFileName, tsLogFileType logFileType, size_t logBufferMaxSize);
 
+	void getFilePath(char* pathDestination, size_t pathDestinationLength);
 	void addHeaderLine(char* headerLine);
 	void addLogDataPoint(double* dataPoint);
 
