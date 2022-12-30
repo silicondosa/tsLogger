@@ -7,16 +7,25 @@
 int main()
 {
     std::cout << "Hello World!\n";
-    tsLogger LoggerA;
+    char newFileName[] = "C:\\data\\testFile.csv";
+    tsLogger LoggerA(newFileName);
+    //tsLogger LoggerA;
     char filePathA[256];
     LoggerA.getFilePath(filePathA, 256);
     std::cout<<"File path for log file A: "<<filePathA<<std::endl;
 
-    char newFileName[] = "testFile.csv";
-    tsLogger LoggerB(newFileName);
-    char filePathB[256];
-    LoggerB.getFilePath(filePathB, 256);
-    std::cout<<"File path for log file B: "<<filePathB<<std::endl;
+    LoggerA.appendToPreamble("Test Preamble\n1");
+    LoggerA.appendToPreamble("Test Preamble 2");
+    LoggerA.appendToPreamble("Test Preamble 3");
+    LoggerA.appendToPreamble("Test Preamble 4");
+    LoggerA.appendToPreamble("Test Preamble 5");
+    LoggerA.appendToPreamble("Test Preamble 6");
+    LoggerA.appendToPreamble("Test Preamble 7");
+    LoggerA.appendToPreamble("Test Preamble 8");
+
+    LoggerA.addPreamble();
+
+    LoggerA.addDataHeader();
 
     return 0;
 }
