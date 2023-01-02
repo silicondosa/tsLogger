@@ -7,9 +7,10 @@
 #include <vector>
 #include <variant>
 #include <algorithm>
+#include <ctime>
 
 #define defaultFilePath		"C:\\data"
-#define defaultFileName		"timeseriesData"
+#define defaultFileName		"tsDataLog"
 #define fileNameLength		400
 #define defLogBufferSize	1000
 #define defHeaderBufSize	1000
@@ -21,24 +22,25 @@ typedef enum _tsLogFileType
 	_TSLOGGER_BINARY		= 1
 }tsLogFileType;
 
+using smartDataPtr = std::variant	<int*, unsigned int*, \
+									long*, unsigned long*, \
+									long long*,	unsigned long long*, \
+									float*, double*, \
+									char*, unsigned char*, \
+									bool* >;
+
 struct tsDataPointer {
-	std::string	dataName;
-	// variant data pointer
-	std::variant	<int*,	unsigned int*, \
-					long*,	unsigned long*, \
-					float*, double*, \
-					char*,	unsigned char*, \
-					bool* \
-					> dataPtr;
+	std::string	dataName; // data name
+	smartDataPtr dataPtr; // variant pointer to data	
 };
 
 class tsLogger {
 	// File properties
+	time_t				logUnixTime;
 	char				fileName[fileNameLength];
 	tsLogFileType		fileType;
 	FILE*				logFilePtr;
 
-	bool				canAddPreamble, canAddDataHeader;
 
 	// Buffers
 	size_t						logBufferSize;
@@ -47,12 +49,10 @@ class tsLogger {
 	std::string					tsHeader;
 	std::vector<tsDataPointer>	dataVector;
 
-
 	// Logger object parameters
 	unsigned			numHeaderLines;
 	size_t				dataVecLen;
-
-	bool				isLogggingStart;
+	bool				canAddPreamble, canAddDataHeader, isLogggingStart;
 
 	// Private member functions
 	int initLogger();
@@ -71,7 +71,7 @@ public:
 	size_t getNumDataPoints();
 
 	// Functions/templates to modify logger state
-	template <typename T> unsigned linkDataPoint(T* dataPointer, const std::string& dataName)
+	template <typename T> unsigned trackDataPoint(T* dataPointer, const std::string& dataName)
 	{
 		tsDataPointer newData;
 		if (dataName.empty()) {
@@ -95,7 +95,7 @@ public:
 	
 	// Functions to log data
 	void startLogger();
-	void logTimeSeriesData();
+	void logData();
 
 	// tsLogger Destructor
 	~tsLogger();

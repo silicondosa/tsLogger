@@ -3,8 +3,12 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <type_traits>
 #include <vector>
 #include <algorithm>
+
+// Template to handle undefined visitor types of variants
+template<class> inline constexpr bool always_false_v = false;
 
 int tsLogger::initLogger()
 {
@@ -36,11 +40,11 @@ int tsLogger::initLogger()
 
 tsLogger::tsLogger()
 {
-	time_t unixTime = time(NULL);
+	logUnixTime		= time(NULL);
 	tm localTime;
-	localtime_s(&localTime, &unixTime);
+	localtime_s(&localTime, &logUnixTime);
 
-	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d-%02d.csv",
+	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d%02d.csv",
 										defaultFilePath,			/*File directory*/
 										defaultFileName,			/*File name prefix*/
 										localTime.tm_year+1900,		/*Current year*/
@@ -57,11 +61,11 @@ tsLogger::tsLogger()
 
 tsLogger::tsLogger(tsLogFileType logFileType)
 {
-	time_t unixTime = time(NULL);
+	logUnixTime		= time(NULL);
 	tm localTime;
-	localtime_s(&localTime, &unixTime);
+	localtime_s(&localTime, &logUnixTime);
 
-	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d-%02d.csv",
+	snprintf(fileName, fileNameLength, "%s\\%s_%04d-%02d-%02d-%02d%02d%02d.csv",
 										defaultFilePath,			/*File directory*/
 										defaultFileName,			/*File name prefix*/
 										localTime.tm_year+1990,		/*Current year*/
@@ -78,6 +82,7 @@ tsLogger::tsLogger(tsLogFileType logFileType)
 
 tsLogger::tsLogger(const char* logFileName)
 {
+	logUnixTime		= time(NULL);
 	snprintf(fileName, fileNameLength, "%s", logFileName);
 	fileType		= _TSLOGGER_CSV;
 	logBufferSize	= defLogBufferSize;
@@ -87,6 +92,7 @@ tsLogger::tsLogger(const char* logFileName)
 
 tsLogger::tsLogger(const char* logFileName, tsLogFileType logFileType)
 {
+	logUnixTime		= time(NULL);
 	snprintf(fileName, fileNameLength, "%s", logFileName);
 	fileType		= logFileType;
 	logBufferSize	= defLogBufferSize;
@@ -96,6 +102,7 @@ tsLogger::tsLogger(const char* logFileName, tsLogFileType logFileType)
 
 tsLogger::tsLogger(const char* logFileName, tsLogFileType logFileType, size_t logBufferMaxSize)
 {
+	logUnixTime		= time(NULL);
 	snprintf(fileName, fileNameLength, "%s", logFileName);
 	fileType		= logFileType;
 	logBufferSize	= logBufferMaxSize;
@@ -127,7 +134,7 @@ void tsLogger::addPreamble()
 	// and neither the dataHeader has been input nor the logging started.
 	if (canAddPreamble == true && this->canAddDataHeader == true && isLogggingStart == false) {
 		this->numHeaderLines++;
-		fprintf(this->logFilePtr, "%05d\n%s", this->numHeaderLines, this->preamble.c_str());
+		fprintf(this->logFilePtr, "%05d,%lld\n%s", this->numHeaderLines, (long long)this->logUnixTime, this->preamble.c_str());
 		canAddPreamble = false;
 	}
 }
@@ -141,7 +148,7 @@ void tsLogger::addDataHeader()
 			fprintf(this->logFilePtr, "%05d", this->numHeaderLines);
 			fseek(this->logFilePtr, 0, SEEK_END);
 		}
-		for (auto it = std::begin(this->dataVector); it != std::end(this->dataVector);/*incrementation done in loop*/) {
+		for (auto it = std::begin(this->dataVector); it != std::end(this->dataVector); /*increment is in loop*/) {
 			if (this->fileType == _TSLOGGER_CSV) {
 				fprintf(this->logFilePtr, "%s", it->dataName.c_str());
 				if (++it != this->dataVector.end()) {
@@ -153,6 +160,76 @@ void tsLogger::addDataHeader()
 			}
 		}
 		this->canAddDataHeader = false;
+	}
+}
+
+void tsLogger::startLogger()
+{
+	if (isLogggingStart == false) {
+		isLogggingStart = true;
+	}
+}
+
+void tsLogger::logData()
+{
+	smartDataPtr dataPtr;
+	if (isLogggingStart != false) {
+		this->startLogger();
+	}
+	for (auto it = std::begin(this->dataVector); it != std::end(this->dataVector); /*increment is in loop*/) {
+		if (this->fileType == _TSLOGGER_CSV) {
+			
+			// Handle variant types here
+			//--------------------------
+			dataPtr = std::visit([](auto&& arg) -> smartDataPtr {return arg;}, it->dataPtr);
+			std::visit([this](auto&& arg) {
+				using dataPtrType = std::decay_t<decltype(arg)>;
+				
+			// data pointer is int*
+				if constexpr (std::is_same_v<dataPtrType, int*>)
+					fprintf(this->logFilePtr, "%d", *arg);
+			// data pointer is unsigned int*
+				else if constexpr (std::is_same_v<dataPtrType, unsigned int*>)
+					fprintf(this->logFilePtr, "%u", *arg);
+			// data pointer is long*
+				else if constexpr (std::is_same_v<dataPtrType, long*>)
+					fprintf(this->logFilePtr, "%ld", *arg);
+			// data pointer is unsigned long*
+				else if constexpr (std::is_same_v<dataPtrType, unsigned long*>)
+					fprintf(this->logFilePtr, "%lu", *arg);
+			// data pointer is long long*
+				else if constexpr (std::is_same_v<dataPtrType, long long*>)
+					fprintf(this->logFilePtr, "%lld", *arg);
+			// data pointer is unsigned long long*
+				else if constexpr (std::is_same_v<dataPtrType, unsigned long long*>)
+					fprintf(this->logFilePtr, "%llu", *arg);
+			// data pointer is float*
+				else if constexpr (std::is_same_v<dataPtrType, float*>)
+					fprintf(this->logFilePtr, "%f", *arg);
+			// data pointer is double*
+				else if constexpr (std::is_same_v<dataPtrType, double*>)
+					fprintf(this->logFilePtr, "%f", *arg);
+			// data pointer is char*
+				else if constexpr (std::is_same_v<dataPtrType, char*>)
+					fprintf(this->logFilePtr, "%c", *arg);
+			// data pointer is unsigned char*
+				else if constexpr (std::is_same_v<dataPtrType, unsigned char*>)
+					fprintf(this->logFilePtr, "%hhu", *arg);
+			// data pointer is bool*
+				else if constexpr (std::is_same_v<dataPtrType, bool*>)
+					fprintf(this->logFilePtr, "%d", *arg);
+			// handle unsupported variant visitor types of data pointer
+				else
+					static_assert(always_false_v<dataPtrType>, "tsLogger: FATAL ERROR: attempting to log unsupported data type!");
+				}, dataPtr);
+
+			if (++it != this->dataVector.end()) {
+					fprintf(this->logFilePtr, ",");
+			}
+			else {
+				fprintf(this->logFilePtr, "\n");
+			}
+		}
 	}
 }
 
