@@ -74,18 +74,19 @@ public:
 	template <typename T> unsigned trackDataPoint(T* dataPointer, const std::string& dataName)
 	{
 		tsDataPointer newData;
-		if (dataName.empty()) {
-			newData.dataName = "Datapoint" + std::to_string(this->dataVecLen);
-		}
-		else {
-			newData.dataName = dataName;
-			std::replace(newData.dataName.begin(), newData.dataName.end(), '\n', ' '); // replace all new line characters with spaces
-		}
-		newData.dataPtr		= dataPointer;
-		
-		this->dataVector.push_back(newData);
-		this->dataVecLen	= this->dataVector.size();
+		if (dataPointer != nullptr) {
+			if (dataName.empty()) {
+				newData.dataName = "Datapoint" + std::to_string(this->dataVecLen);
+			}
+			else {
+				newData.dataName = dataName;
+				std::replace(newData.dataName.begin(), newData.dataName.end(), '\n', ' '); // replace all new line characters with spaces
+			}
+			newData.dataPtr = dataPointer;
 
+			this->dataVector.push_back(newData);
+			this->dataVecLen = this->dataVector.size();
+		}
 		return this->dataVecLen;
 	}
 
