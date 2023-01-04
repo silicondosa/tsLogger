@@ -15,13 +15,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\tsLogger.cpp">
+    <ClInclude Include="..\include\tsLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\include\tsLogger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="..\bin\win32\tsLogger.idb" />
+    <None Include="..\bin\win32\tsLogger.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\bin\win32\tsLogger.lib" />
   </ItemGroup>
 </Project>
