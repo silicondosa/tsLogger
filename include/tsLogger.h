@@ -80,7 +80,11 @@ public:
 			}
 			else {
 				newData.dataName = dataName;
+				// sanity check name so there is no trouble when eventually inserting names in the CSV header
 				std::replace(newData.dataName.begin(), newData.dataName.end(), '\n', ' '); // replace all new line characters with spaces
+				std::replace(newData.dataName.begin(), newData.dataName.end(), ',' , ' '); // replace all comma characters with spaces
+				std::replace(newData.dataName.begin(), newData.dataName.end(), '\r', ' '); // replace all carriage return characters with spaces
+				std::replace(newData.dataName.begin(), newData.dataName.end(), '\0', ' '); // replace all EOF characters with spaces
 			}
 			newData.dataPtr = dataPointer;
 
