@@ -1,0 +1,12 @@
+00010,1673654149
+Test Preamble 1
+Test Preamble 2
+Test Preamble 3
+Test Preamble 4
+Test Preamble 5
+Test Preamble 6
+Test Preamble 7
+Test Preamble 8
+First data tracked,datapoint1,datapoint 3,data 4,just a float,double-precision sensor data,data point 7,another datapoint,binary values also supported,timestamp,last data point
+-1,88,-324684,684333,2.718000,-53.246814,g,254,1,-1314646343645,1314646343645
+-176,564,-87130,3418962,-3842.718018,0.123457,G,255,0,-9314646343645,9314646343645

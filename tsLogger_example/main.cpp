@@ -8,7 +8,7 @@ int main()
 {
     // library initialization
     std::cout << "Hello World!\n";
-    char newFileName[] = "C:\\data\\testFile.csv";
+    char newFileName[] = "testFile.csv";
     tsLogger loggerA(newFileName);
         // if no file name is provided,
             // it will create one with the name "tsDataLog_YYYY-MM-DD-HHMM.csv"
@@ -17,7 +17,7 @@ int main()
     std::cout<<"File path for log file A: "<<filePathA<<std::endl;
 
     // append things to the preabmle and add it to the text file
-    loggerA.appendToPreamble("Test Preamble\n1");
+    loggerA.appendToPreamble("Test Preamble\n1"); // new line character is removed automatically
     loggerA.appendToPreamble("Test Preamble 2");
     loggerA.appendToPreamble("Test Preamble 3");
     loggerA.appendToPreamble("Test Preamble 4");
@@ -42,17 +42,17 @@ int main()
     unsigned long long k = 1314646343645;
 
     // track data points
-    loggerA.trackDataPoint(&a, "int");
-    loggerA.trackDataPoint(&b, "unsigned int");
-    loggerA.trackDataPoint(&c, "long");
-    loggerA.trackDataPoint(&d, "unsigned long");
-    loggerA.trackDataPoint(&e, "float");
-    loggerA.trackDataPoint(&f, "double");
-    loggerA.trackDataPoint(&g, "char");
-    loggerA.trackDataPoint(&h, "unsigned char");
-    loggerA.trackDataPoint(&i, "bool");
-    loggerA.trackDataPoint(&j, "long long");
-    loggerA.trackDataPoint(&k, "unsigned long long");
+    loggerA.trackDataPoint(&a, "First data tracked");
+    loggerA.trackDataPoint(&b, ""); // auto-labelled
+    loggerA.trackDataPoint(&c, "datapoint 3");
+    loggerA.trackDataPoint(&d, "data 4");
+    loggerA.trackDataPoint(&e, "just a float");
+    loggerA.trackDataPoint(&f, "double-precision sensor data");
+    loggerA.trackDataPoint(&g, "data point 7");
+    loggerA.trackDataPoint(&h, "another datapoint");
+    loggerA.trackDataPoint(&i, "binary values also supported");
+    loggerA.trackDataPoint(&j, "timestamp");
+    loggerA.trackDataPoint(&k, "last data point");
 
     // add header to text file
     loggerA.addDataHeader();

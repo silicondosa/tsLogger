@@ -11,6 +11,7 @@
 
 #define defaultFilePath		"C:\\data"
 #define defaultFileName		"tsDataLog"
+#define defaultDataName		"datapoint"
 #define fileNameLength		400
 #define defLogBufferSize	1000
 #define defHeaderBufSize	1000
@@ -76,7 +77,7 @@ public:
 		tsDataPointer newData;
 		if (dataPointer != nullptr) {
 			if (dataName.empty()) {
-				newData.dataName = "Datapoint" + std::to_string(this->dataVecLen);
+				newData.dataName = defaultDataName + std::to_string(this->dataVecLen);
 			}
 			else {
 				newData.dataName = dataName;
