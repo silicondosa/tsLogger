@@ -1,5 +1,5 @@
 # tsLogger: Timeseries and Snapshot Logger
-tsLogger (short for **t**imeseries and **s**napshot **Logger**) is a C++17 data logger for time series data that is dead-simple to use. It can also be used to save a snapshot the state of most variables to a file at any time during runtime.
+tsLogger (short for Timeseries and Snapshot Logger) is a **C++17** data logger for time series data that is dead-simple to use. It can also be used to save a snapshot the state of most variables to a file at any time during runtime.
 
 ## Features, requirements and limitations
 - This is a C++17 library which utilizes `std::variant` vectors of pointers to data that needs to be tracked. So, all you need to log a variable its address. But, you will need a C++17 compatible compiler. The library has been tested to work on Visual Studio 2022 running on Windows 10.
@@ -27,7 +27,9 @@ I will make DOXYGEN-generated documentation available as soon as I have a minute
 - Whenever you need to log the state of all the tracked variables, simply call `logData()` to store the state of all of the variables as a line in your file.
 - The first time you call this function (or manually if the user prefers), it calls `startLogger()` to indicate that loggging has started. This prevents the addition of preamble lines or a data header between the actual data as such a thing would corrupt the CSV data during ingestion.
 
-In `./tsLogger_example/main.cpp`, you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
+In `./tsLogger_example/main.cpp` (linked here), you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
+
+Doxygen-generated HTML documentation is available here.
 
 ## Inspiration and learnings
 As someone working on neuro-robotics, and near-real-time data acquisition and controls, I need to work on high performance code. This means, I usually work with C/C++. I needed to track dozens of datapoints that were being updated simultaneously every _1 ms_ with minimal performance penalty. The simple _"Let's put an `fprintf` outputing CSV lines to a file in the control loop"_ approach worked great until I started making PEBCAK errors like incorrect format specifiers or mistakes passing all datapoints to the right thread and function. I wanted a fool-proof way to collect this streaming real-time data so long as the performance penalty was not crushing. So, I created this library. Along the way, I learning about some of the new features that modern has to offer to offer like `std::variant`, `std::vector`, template functions and classes, and even lambdas.
@@ -35,7 +37,7 @@ As someone working on neuro-robotics, and near-real-time data acquisition and co
 I am now investigating replacing `std::visit` when resolving `std::variant` with `std::get_if` or my own implementation as I learned that `std::visit` is potentially slow [[1]](https://www.reddit.com/r/cpp/comments/kst2pu/with_stdvariant_you_choose_either_performance_or/), [[2]](https://www.reddit.com/r/cpp/comments/a8xkl3/when_performance_guarantees_hurts_performance/), [[3]](https://bitbashing.io/std-visit.html).
 
 ## LICENSE
-This library is released under the permissive MIT license. So, please have at it!
+This library is released under the GNU Lesser GPL V3 license.
 
 ## Feedback, issues and pull requests
 Please don't hesitate to leave your feedback by opening up an issue. I welcome pull requests too for interesting features so long as the library remains dead-simple to use.

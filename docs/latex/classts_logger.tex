@@ -1,0 +1,310 @@
+\hypertarget{classts_logger}{}\doxysection{ts\+Logger Class Reference}
+\label{classts_logger}\index{tsLogger@{tsLogger}}
+
+
+The core class of the library is the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Multiple simultaneous class objects are supported.  
+
+
+
+
+{\ttfamily \#include $<$include/ts\+Logger.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{ts\+Logger}} ()
+\begin{DoxyCompactList}\small\item\em Default constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Uses default values to initialize all object properties. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classts_logger_ac6db0a75dad8ca44fac768f500f17472}{ts\+Logger}} (\mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} log\+File\+Type)
+\begin{DoxyCompactList}\small\item\em An overloaded 1-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the logfile type. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classts_logger_a8984146636e1a4910cabb8b66a4112ce}{ts\+Logger}} (const char $\ast$log\+File\+Name)
+\begin{DoxyCompactList}\small\item\em An overloaded 1-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the logfile name. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classts_logger_a49967010390f1885dd9305d54715430d}{ts\+Logger}} (const char $\ast$log\+File\+Name, \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} log\+File\+Type)
+\begin{DoxyCompactList}\small\item\em An overloaded 2-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the file type and file name. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classts_logger_a433e54dbbf6260623b751a53f92c2b63}{ts\+Logger}} (const char $\ast$log\+File\+Name, \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} log\+File\+Type, size\+\_\+t log\+Buffer\+Max\+Size)
+\begin{DoxyCompactList}\small\item\em An overloaded 3-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to select file type, file name and internal log buffer size. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_a722c13d2683e994fbc0be8a69b474186}{get\+File\+Path}} (char $\ast$path\+Destination, size\+\_\+t path\+Destination\+Length)
+\begin{DoxyCompactList}\small\item\em Allows the user to read the file path of the log file. \end{DoxyCompactList}\item 
+size\+\_\+t \mbox{\hyperlink{classts_logger_a95f4541f7497dc8a9a70256817596e68}{get\+Num\+Data\+Points}} ()
+\begin{DoxyCompactList}\small\item\em Returns the total number of data points being tracked for logging by the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class object. \end{DoxyCompactList}\item 
+{\footnotesize template$<$typename T $>$ }\\unsigned \mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{track\+Data\+Point}} (T $\ast$data\+Pointer, const std\+::string \&data\+Name)
+\begin{DoxyCompactList}\small\item\em Template member function that appends the data point to the list of tracked data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{append\+To\+Preamble}} (std\+::string append\+String)
+\begin{DoxyCompactList}\small\item\em Appends a line of text to the preamble block of the log file. Replaces new line characters with spaces. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}{add\+Preamble}} ()
+\begin{DoxyCompactList}\small\item\em Adds the preamble to the log file-\/can only be added once and only be called before the \mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{add\+Data\+Header}} function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{add\+Data\+Header}} ()
+\begin{DoxyCompactList}\small\item\em Add the data header (consisting of datapoint names separated by commas) to the header file. Do not call \mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{track\+Data\+Point}} after this function call. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_a577a02d299b9c456ef15d320355d757c}{start\+Logger}} ()
+\begin{DoxyCompactList}\small\item\em Starts the logger and locks out the ability to add preambles, headers and new data points. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classts_logger_ad7a045a827393ee7854d710015c991c3}{log\+Data}} ()
+\begin{DoxyCompactList}\small\item\em Logs the data points being tracked as a line in the log file. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classts_logger_abfe5311d7c14b23f0c61df6ba741e9f5}{$\sim$ts\+Logger}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+The core class of the library is the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Multiple simultaneous class objects are supported. 
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00050}{50}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}\label{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}} 
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{tsLogger()}{tsLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [1/5]}}
+{\footnotesize\ttfamily ts\+Logger\+::ts\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Default constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Uses default values to initialize all object properties. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00041}{41}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_ac6db0a75dad8ca44fac768f500f17472}\label{classts_logger_ac6db0a75dad8ca44fac768f500f17472}} 
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{tsLogger()}{tsLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [2/5]}}
+{\footnotesize\ttfamily ts\+Logger\+::ts\+Logger (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}}}]{log\+File\+Type }\end{DoxyParamCaption})}
+
+
+
+An overloaded 1-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the logfile type. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+File\+Type} & The file type of the logfile per the \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} enum. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00062}{62}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a8984146636e1a4910cabb8b66a4112ce}\label{classts_logger_a8984146636e1a4910cabb8b66a4112ce}} 
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{tsLogger()}{tsLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [3/5]}}
+{\footnotesize\ttfamily ts\+Logger\+::ts\+Logger (\begin{DoxyParamCaption}\item[{const char $\ast$}]{log\+File\+Name }\end{DoxyParamCaption})}
+
+
+
+An overloaded 1-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the logfile name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+File\+Name} & The file name of the logfile. You can optionally provide the full file path if you want the file to reside in a particular location. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00083}{83}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a49967010390f1885dd9305d54715430d}\label{classts_logger_a49967010390f1885dd9305d54715430d}} 
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{tsLogger()}{tsLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [4/5]}}
+{\footnotesize\ttfamily ts\+Logger\+::ts\+Logger (\begin{DoxyParamCaption}\item[{const char $\ast$}]{log\+File\+Name,  }\item[{\mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}}}]{log\+File\+Type }\end{DoxyParamCaption})}
+
+
+
+An overloaded 2-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to set the file type and file name. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+File\+Name} & The file name of the logfile. You can optionally provide the full file path if you want the file to reside in a particular location. \\
+\hline
+{\em log\+File\+Type} & The file type of the logfile per the \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} enum. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00093}{93}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a433e54dbbf6260623b751a53f92c2b63}\label{classts_logger_a433e54dbbf6260623b751a53f92c2b63}} 
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\index{tsLogger@{tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{tsLogger()}{tsLogger()}\hspace{0.1cm}{\footnotesize\ttfamily [5/5]}}
+{\footnotesize\ttfamily ts\+Logger\+::ts\+Logger (\begin{DoxyParamCaption}\item[{const char $\ast$}]{log\+File\+Name,  }\item[{\mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}}}]{log\+File\+Type,  }\item[{size\+\_\+t}]{log\+Buffer\+Max\+Size }\end{DoxyParamCaption})}
+
+
+
+An overloaded 3-\/parameter constructor of the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Allows the user to select file type, file name and internal log buffer size. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em log\+File\+Name} & The file name of the logfile. You can optionally provide the full file path if you want the file to reside in a particular location. \\
+\hline
+{\em log\+File\+Type} & The file type of the logfile per the \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}} enum. \\
+\hline
+{\em log\+Buffer\+Max\+Size} & The buffer size of the internal log buffer. When the buffer is full, the data is dumped to file. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00103}{103}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_abfe5311d7c14b23f0c61df6ba741e9f5}\label{classts_logger_abfe5311d7c14b23f0c61df6ba741e9f5}} 
+\index{tsLogger@{tsLogger}!````~tsLogger@{$\sim$tsLogger}}
+\index{````~tsLogger@{$\sim$tsLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{$\sim$tsLogger()}{~tsLogger()}}
+{\footnotesize\ttfamily ts\+Logger\+::$\sim$ts\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00236}{236}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classts_logger_aa571d38f3f51f143703118a6092209ad}\label{classts_logger_aa571d38f3f51f143703118a6092209ad}} 
+\index{tsLogger@{tsLogger}!addDataHeader@{addDataHeader}}
+\index{addDataHeader@{addDataHeader}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{addDataHeader()}{addDataHeader()}}
+{\footnotesize\ttfamily void ts\+Logger\+::add\+Data\+Header (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Add the data header (consisting of datapoint names separated by commas) to the header file. Do not call \mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{track\+Data\+Point}} after this function call. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00142}{142}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}\label{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}} 
+\index{tsLogger@{tsLogger}!addPreamble@{addPreamble}}
+\index{addPreamble@{addPreamble}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{addPreamble()}{addPreamble()}}
+{\footnotesize\ttfamily void ts\+Logger\+::add\+Preamble (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Adds the preamble to the log file-\/can only be added once and only be called before the \mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{add\+Data\+Header}} function. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00131}{131}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}\label{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}} 
+\index{tsLogger@{tsLogger}!appendToPreamble@{appendToPreamble}}
+\index{appendToPreamble@{appendToPreamble}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{appendToPreamble()}{appendToPreamble()}}
+{\footnotesize\ttfamily void ts\+Logger\+::append\+To\+Preamble (\begin{DoxyParamCaption}\item[{std\+::string}]{append\+String }\end{DoxyParamCaption})}
+
+
+
+Appends a line of text to the preamble block of the log file. Replaces new line characters with spaces. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em append\+String} & String to append. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00123}{123}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a722c13d2683e994fbc0be8a69b474186}\label{classts_logger_a722c13d2683e994fbc0be8a69b474186}} 
+\index{tsLogger@{tsLogger}!getFilePath@{getFilePath}}
+\index{getFilePath@{getFilePath}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{getFilePath()}{getFilePath()}}
+{\footnotesize\ttfamily void ts\+Logger\+::get\+File\+Path (\begin{DoxyParamCaption}\item[{char $\ast$}]{path\+Destination,  }\item[{size\+\_\+t}]{path\+Destination\+Length }\end{DoxyParamCaption})}
+
+
+
+Allows the user to read the file path of the log file. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em path\+Destination} & The pointer to the character array to which the user wants the file path to be written. \\
+\hline
+{\em path\+Destination\+Length} & The maximum length of data allowed to be written to the character array. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00113}{113}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a95f4541f7497dc8a9a70256817596e68}\label{classts_logger_a95f4541f7497dc8a9a70256817596e68}} 
+\index{tsLogger@{tsLogger}!getNumDataPoints@{getNumDataPoints}}
+\index{getNumDataPoints@{getNumDataPoints}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{getNumDataPoints()}{getNumDataPoints()}}
+{\footnotesize\ttfamily size\+\_\+t ts\+Logger\+::get\+Num\+Data\+Points (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the total number of data points being tracked for logging by the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class object. 
+
+\begin{DoxyReturn}{Returns}
+The number of data points being tracked by the logger object. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00118}{118}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_ad7a045a827393ee7854d710015c991c3}\label{classts_logger_ad7a045a827393ee7854d710015c991c3}} 
+\index{tsLogger@{tsLogger}!logData@{logData}}
+\index{logData@{logData}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{logData()}{logData()}}
+{\footnotesize\ttfamily void ts\+Logger\+::log\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Logs the data points being tracked as a line in the log file. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00173}{173}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a577a02d299b9c456ef15d320355d757c}\label{classts_logger_a577a02d299b9c456ef15d320355d757c}} 
+\index{tsLogger@{tsLogger}!startLogger@{startLogger}}
+\index{startLogger@{startLogger}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{startLogger()}{startLogger()}}
+{\footnotesize\ttfamily void ts\+Logger\+::start\+Logger (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Starts the logger and locks out the ability to add preambles, headers and new data points. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8cpp_source_l00166}{166}} of file \mbox{\hyperlink{ts_logger_8cpp_source}{ts\+Logger.\+cpp}}.
+
+\mbox{\Hypertarget{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}\label{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}} 
+\index{tsLogger@{tsLogger}!trackDataPoint@{trackDataPoint}}
+\index{trackDataPoint@{trackDataPoint}!tsLogger@{tsLogger}}
+\doxysubsubsection{\texorpdfstring{trackDataPoint()}{trackDataPoint()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+unsigned ts\+Logger\+::track\+Data\+Point (\begin{DoxyParamCaption}\item[{T $\ast$}]{data\+Pointer,  }\item[{const std\+::string \&}]{data\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Template member function that appends the data point to the list of tracked data. 
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & Template data type of the data point that needs to be tracked. Support data types are governed by \mbox{\hyperlink{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}{smart\+Data\+Ptr}}. \\
+\hline
+\end{DoxyTemplParams}
+
+\begin{DoxyParams}{Parameters}
+{\em data\+Pointer} & Pointer/reference to the data point that needs to be tracked. \\
+\hline
+{\em data\+Name} & Name of the data point that needs to be tracked. This name is used to build the header line of the log file. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total number of data points being tracked including the new data point if successful and a negative number if there was an error. 
+\end{DoxyReturn}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00143}{143}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{ts_logger_8h}{ts\+Logger.\+h}}\item 
+src/\mbox{\hyperlink{ts_logger_8cpp}{ts\+Logger.\+cpp}}\end{DoxyCompactItemize}

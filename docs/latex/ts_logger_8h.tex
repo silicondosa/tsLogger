@@ -1,0 +1,186 @@
+\hypertarget{ts_logger_8h}{}\doxysection{include/ts\+Logger.h File Reference}
+\label{ts_logger_8h}\index{include/tsLogger.h@{include/tsLogger.h}}
+{\ttfamily \#include $<$cstdio$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$variant$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$ctime$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structts_data_pointer}{ts\+Data\+Pointer}}
+\begin{DoxyCompactList}\small\item\em Data pointer structure used to track datapoints, with datapoint name and pointer to data. \end{DoxyCompactList}\item 
+class \mbox{\hyperlink{classts_logger}{ts\+Logger}}
+\begin{DoxyCompactList}\small\item\em The core class of the library is the \mbox{\hyperlink{classts_logger}{ts\+Logger}} class. Multiple simultaneous class objects are supported. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_aa8377e863da9ef11570c332615cfc3d6}{\+\_\+\+TSLOGGER\+\_\+H}}
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_a71ec7de0d92134e60034b945b408ca12}{default\+File\+Path}}~\char`\"{}C\+:\textbackslash{}\textbackslash{}data\char`\"{}
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_a31084eec743ae4de2ac3192db236e76e}{default\+File\+Name}}~\char`\"{}ts\+Data\+Log\char`\"{}
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_a886babc4e3671f574b75cefe6048ba29}{default\+Data\+Name}}~\char`\"{}datapoint\char`\"{}
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{file\+Name\+Length}}~400
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}{def\+Log\+Buffer\+Size}}~1000
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_aac80c25cedf6568ac51f2d6ab841534c}{def\+Header\+Buf\+Size}}~1000
+\item 
+\#define \mbox{\hyperlink{ts_logger_8h_ac73f1b48b085f74d67707565e6eba1b1}{def\+Data\+Buf\+Size}}~100
+\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef enum \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}{\+\_\+ts\+Log\+File\+Type}} \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}}
+\begin{DoxyCompactList}\small\item\em The file-\/types supported by \mbox{\hyperlink{classts_logger}{ts\+Logger}}. \mbox{[}BINARY support coming in the future\mbox{]}. \end{DoxyCompactList}\item 
+using \mbox{\hyperlink{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}{smart\+Data\+Ptr}} = std\+::variant$<$ int $\ast$, unsigned int $\ast$, long $\ast$, unsigned long $\ast$, long long $\ast$, unsigned long long $\ast$, float $\ast$, double $\ast$, char $\ast$, unsigned char $\ast$, bool $\ast$ $>$
+\begin{DoxyCompactList}\small\item\em This varriant datatype governs the supported data points that can be tracked. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}{\+\_\+ts\+Log\+File\+Type}} \{ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\+\_\+\+TSLOGGER\+\_\+\+CSV}} = 0
+, \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da8a2e1eeabc940251f67eec54f82ad704}{\+\_\+\+TSLOGGER\+\_\+\+BINARY}} = 1
+ \}
+\begin{DoxyCompactList}\small\item\em The file-\/types supported by \mbox{\hyperlink{classts_logger}{ts\+Logger}}. \mbox{[}BINARY support coming in the future\mbox{]}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{ts_logger_8h_aa8377e863da9ef11570c332615cfc3d6}\label{ts_logger_8h_aa8377e863da9ef11570c332615cfc3d6}} 
+\index{tsLogger.h@{tsLogger.h}!\_TSLOGGER\_H@{\_TSLOGGER\_H}}
+\index{\_TSLOGGER\_H@{\_TSLOGGER\_H}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{\_TSLOGGER\_H}{\_TSLOGGER\_H}}
+{\footnotesize\ttfamily \#define \+\_\+\+TSLOGGER\+\_\+H}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00003}{3}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_a886babc4e3671f574b75cefe6048ba29}\label{ts_logger_8h_a886babc4e3671f574b75cefe6048ba29}} 
+\index{tsLogger.h@{tsLogger.h}!defaultDataName@{defaultDataName}}
+\index{defaultDataName@{defaultDataName}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defaultDataName}{defaultDataName}}
+{\footnotesize\ttfamily \#define default\+Data\+Name~\char`\"{}datapoint\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00014}{14}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_a31084eec743ae4de2ac3192db236e76e}\label{ts_logger_8h_a31084eec743ae4de2ac3192db236e76e}} 
+\index{tsLogger.h@{tsLogger.h}!defaultFileName@{defaultFileName}}
+\index{defaultFileName@{defaultFileName}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defaultFileName}{defaultFileName}}
+{\footnotesize\ttfamily \#define default\+File\+Name~\char`\"{}ts\+Data\+Log\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00013}{13}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_a71ec7de0d92134e60034b945b408ca12}\label{ts_logger_8h_a71ec7de0d92134e60034b945b408ca12}} 
+\index{tsLogger.h@{tsLogger.h}!defaultFilePath@{defaultFilePath}}
+\index{defaultFilePath@{defaultFilePath}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defaultFilePath}{defaultFilePath}}
+{\footnotesize\ttfamily \#define default\+File\+Path~\char`\"{}C\+:\textbackslash{}\textbackslash{}data\char`\"{}}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00012}{12}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_ac73f1b48b085f74d67707565e6eba1b1}\label{ts_logger_8h_ac73f1b48b085f74d67707565e6eba1b1}} 
+\index{tsLogger.h@{tsLogger.h}!defDataBufSize@{defDataBufSize}}
+\index{defDataBufSize@{defDataBufSize}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defDataBufSize}{defDataBufSize}}
+{\footnotesize\ttfamily \#define def\+Data\+Buf\+Size~100}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00018}{18}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_aac80c25cedf6568ac51f2d6ab841534c}\label{ts_logger_8h_aac80c25cedf6568ac51f2d6ab841534c}} 
+\index{tsLogger.h@{tsLogger.h}!defHeaderBufSize@{defHeaderBufSize}}
+\index{defHeaderBufSize@{defHeaderBufSize}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defHeaderBufSize}{defHeaderBufSize}}
+{\footnotesize\ttfamily \#define def\+Header\+Buf\+Size~1000}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00017}{17}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}\label{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}} 
+\index{tsLogger.h@{tsLogger.h}!defLogBufferSize@{defLogBufferSize}}
+\index{defLogBufferSize@{defLogBufferSize}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{defLogBufferSize}{defLogBufferSize}}
+{\footnotesize\ttfamily \#define def\+Log\+Buffer\+Size~1000}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00016}{16}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}\label{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}} 
+\index{tsLogger.h@{tsLogger.h}!fileNameLength@{fileNameLength}}
+\index{fileNameLength@{fileNameLength}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{fileNameLength}{fileNameLength}}
+{\footnotesize\ttfamily \#define file\+Name\+Length~400}
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00015}{15}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}\label{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}} 
+\index{tsLogger.h@{tsLogger.h}!smartDataPtr@{smartDataPtr}}
+\index{smartDataPtr@{smartDataPtr}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{smartDataPtr}{smartDataPtr}}
+{\footnotesize\ttfamily using \mbox{\hyperlink{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}{smart\+Data\+Ptr}} =  std\+::variant $<$int$\ast$, unsigned int$\ast$, long$\ast$, unsigned long$\ast$, long long$\ast$, unsigned long long$\ast$, float$\ast$, double$\ast$, char$\ast$, unsigned char$\ast$, bool$\ast$ $>$}
+
+
+
+This varriant datatype governs the supported data points that can be tracked. 
+
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00032}{32}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+
+\mbox{\Hypertarget{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}\label{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}} 
+\index{tsLogger.h@{tsLogger.h}!tsLogFileType@{tsLogFileType}}
+\index{tsLogFileType@{tsLogFileType}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{tsLogFileType}{tsLogFileType}}
+{\footnotesize\ttfamily typedef enum \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}{\+\_\+ts\+Log\+File\+Type}} \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{ts\+Log\+File\+Type}}}
+
+
+
+The file-\/types supported by \mbox{\hyperlink{classts_logger}{ts\+Logger}}. \mbox{[}BINARY support coming in the future\mbox{]}. 
+
+
+
+\doxysubsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}\label{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}} 
+\index{tsLogger.h@{tsLogger.h}!\_tsLogFileType@{\_tsLogFileType}}
+\index{\_tsLogFileType@{\_tsLogFileType}!tsLogger.h@{tsLogger.h}}
+\doxysubsubsection{\texorpdfstring{\_tsLogFileType}{\_tsLogFileType}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46d}{\+\_\+ts\+Log\+File\+Type}}}
+
+
+
+The file-\/types supported by \mbox{\hyperlink{classts_logger}{ts\+Logger}}. \mbox{[}BINARY support coming in the future\mbox{]}. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{\_TSLOGGER\_CSV@{\_TSLOGGER\_CSV}!tsLogger.h@{tsLogger.h}}\index{tsLogger.h@{tsLogger.h}!\_TSLOGGER\_CSV@{\_TSLOGGER\_CSV}}}\mbox{\Hypertarget{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}\label{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}} 
+\+\_\+\+TSLOGGER\+\_\+\+CSV&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{\_TSLOGGER\_BINARY@{\_TSLOGGER\_BINARY}!tsLogger.h@{tsLogger.h}}\index{tsLogger.h@{tsLogger.h}!\_TSLOGGER\_BINARY@{\_TSLOGGER\_BINARY}}}\mbox{\Hypertarget{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da8a2e1eeabc940251f67eec54f82ad704}\label{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da8a2e1eeabc940251f67eec54f82ad704}} 
+\+\_\+\+TSLOGGER\+\_\+\+BINARY&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \mbox{\hyperlink{ts_logger_8h_source_l00023}{23}} of file \mbox{\hyperlink{ts_logger_8h_source}{ts\+Logger.\+h}}.
+

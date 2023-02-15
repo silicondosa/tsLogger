@@ -1,0 +1,89 @@
+\hypertarget{main_8cpp_source}{}\doxysection{main.\+cpp}
+\label{main_8cpp_source}\index{tsLogger\_example/main.cpp@{tsLogger\_example/main.cpp}}
+\mbox{\hyperlink{main_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00001}00001\ \textcolor{comment}{//\ tsLogger.cpp\ :\ This\ file\ contains\ the\ 'main'\ function.\ Program\ execution\ begins\ and\ ends\ there.}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00002}00002\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00003}00003\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{ts_logger_8h}{tsLogger.h}}>}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00007}\mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{00007}}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}}()}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00008}00008\ \{}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00009}00009\ \ \ \ \ \textcolor{comment}{//\ library\ initialization}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00010}00010\ \ \ \ \ std::cout\ <<\ \textcolor{stringliteral}{"{}Hello\ World!\(\backslash\)n"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00011}00011\ \ \ \ \ \textcolor{keywordtype}{char}\ newFileName[]\ =\ \textcolor{stringliteral}{"{}testFile.csv"{}};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00012}00012\ \ \ \ \ \mbox{\hyperlink{classts_logger}{tsLogger}}\ loggerA(newFileName);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00013}00013\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ if\ no\ file\ name\ is\ provided,}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ it\ will\ create\ one\ with\ the\ name\ "{}tsDataLog\_YYYY-\/MM-\/DD-\/HHMM.csv"{}}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00015}00015\ \ \ \ \ \textcolor{keywordtype}{char}\ filePathA[256];}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00016}00016\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a722c13d2683e994fbc0be8a69b474186}{getFilePath}}(filePathA,\ 256);}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00017}00017\ \ \ \ \ std::cout<<\textcolor{stringliteral}{"{}File\ path\ for\ log\ file\ A:\ "{}}<<filePathA<<std::endl;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00019}00019\ \ \ \ \ \textcolor{comment}{//\ append\ things\ to\ the\ preabmle\ and\ add\ it\ to\ the\ text\ file}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00020}00020\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\(\backslash\)n1"{}});\ \textcolor{comment}{//\ new\ line\ character\ is\ removed\ automatically}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00021}00021\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 2"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00022}00022\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 3"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00023}00023\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 4"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00024}00024\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 5"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00025}00025\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 6"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00026}00026\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 7"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00027}00027\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{appendToPreamble}}(\textcolor{stringliteral}{"{}Test\ Preamble\ 8"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00029}00029\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}{addPreamble}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00031}00031\ \ \ \ \ \textcolor{comment}{//\ test\ data\ points\ to\ link}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordtype}{int}\ a\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00033}00033\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ b\ =\ 88;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00034}00034\ \ \ \ \ \textcolor{keywordtype}{long}\ c\ =\ -\/324684;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ d\ =\ 684333;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{keywordtype}{float}\ e\ =\ (float)\ 2.718;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{keywordtype}{double}\ f\ =\ -\/53.2468143648136418;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordtype}{char}\ g\ =\ \textcolor{charliteral}{'g'};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{char}\ h\ =\ 254;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00040}00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ i\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ j\ =\ -\/1314646343645;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ k\ =\ 1314646343645;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00044}00044\ \ \ \ \ \textcolor{comment}{//\ track\ data\ points}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00045}00045\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&a,\ \textcolor{stringliteral}{"{}First\ data\ tracked"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00046}00046\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&b,\ \textcolor{stringliteral}{"{}"{}});\ \textcolor{comment}{//\ auto-\/labelled}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00047}00047\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&c,\ \textcolor{stringliteral}{"{}datapoint\ 3"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00048}00048\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&d,\ \textcolor{stringliteral}{"{}data\ 4"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00049}00049\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&e,\ \textcolor{stringliteral}{"{}just\ a\ float"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00050}00050\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&f,\ \textcolor{stringliteral}{"{}double-\/precision\ sensor\ data"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00051}00051\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&g,\ \textcolor{stringliteral}{"{}data\ point\ 7"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00052}00052\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&h,\ \textcolor{stringliteral}{"{}another\ datapoint"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00053}00053\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&i,\ \textcolor{stringliteral}{"{}binary\ values\ also\ supported"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00054}00054\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&j,\ \textcolor{stringliteral}{"{}timestamp"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00055}00055\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_a5148f25ff5379d73506163cfb9a0bf35}{trackDataPoint}}(\&k,\ \textcolor{stringliteral}{"{}last\ data\ point"{}});}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00057}00057\ \ \ \ \ \textcolor{comment}{//\ add\ header\ to\ text\ file}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00058}00058\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{addDataHeader}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00060}00060\ \ \ \ \ \textcolor{comment}{//\ log\ current\ state\ of\ data\ points}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00061}00061\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_ad7a045a827393ee7854d710015c991c3}{logData}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00063}00063\ \ \ \ \ \textcolor{comment}{//\ change\ state\ of\ data\ points}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00064}00064\ \ \ \ \ a\ =\ -\/176;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00065}00065\ \ \ \ \ b\ =\ 564;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00066}00066\ \ \ \ \ c\ =\ -\/87130;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00067}00067\ \ \ \ \ d\ =\ 3418962;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00068}00068\ \ \ \ \ e\ =\ (float)\ -\/\ 3842.718;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00069}00069\ \ \ \ \ f\ =\ 0.123456789;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00070}00070\ \ \ \ \ g\ =\ \textcolor{charliteral}{'G'};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00071}00071\ \ \ \ \ h\ =\ 255;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00072}00072\ \ \ \ \ i\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00073}00073\ \ \ \ \ j\ =\ -\/9314646343645;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00074}00074\ \ \ \ \ k\ =\ 9314646343645;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00077}00077\ \ \ \ \ \textcolor{comment}{//\ log\ current\ state\ of\ data\ points}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ -\/\ call\ as\ many\ times\ as\ you\ need\ to\ log\ data\ states}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00079}00079\ \ \ \ \ loggerA.\mbox{\hyperlink{classts_logger_ad7a045a827393ee7854d710015c991c3}{logData}}();}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00082}00082\ \}}
+\DoxyCodeLine{\Hypertarget{main_8cpp_source_l00083}00083\ }
+
+\end{DoxyCode}

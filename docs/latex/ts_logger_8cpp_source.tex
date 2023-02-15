@@ -1,0 +1,255 @@
+\hypertarget{ts_logger_8cpp_source}{}\doxysection{ts\+Logger.\+cpp}
+\label{ts_logger_8cpp_source}\index{src/tsLogger.cpp@{src/tsLogger.cpp}}
+\mbox{\hyperlink{ts_logger_8cpp}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ <\mbox{\hyperlink{ts_logger_8h}{tsLogger.h}}>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00002}00002\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <cstdio>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <ctime>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00010}00010\ \textcolor{comment}{//\ Template\ to\ handle\ undefined\ visitor\ types\ of\ variants}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00011}\mbox{\hyperlink{ts_logger_8cpp_ae696a34b97be9b139f09aa17cf854eb9}{00011}}\ \textcolor{keyword}{template}<\textcolor{keyword}{class}>\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{ts_logger_8cpp_ae696a34b97be9b139f09aa17cf854eb9}{always\_false\_v}}\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00013}00013\ \textcolor{keywordtype}{int}\ tsLogger::initLogger()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00014}00014\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00015}00015\ \ \ \ \ \textcolor{comment}{//\ Allocate\ buffer\ memory\ dynamically}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00016}00016\ \ \ \ \ logBuffer\ \ \ \ \ \ \ =\ (\textcolor{keywordtype}{char}*)\ \ \ malloc(logBufferSize);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00017}00017\ \ \ \ \ preamble.clear();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00018}00018\ \ \ \ \ tsHeader.clear();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00019}00019\ \ \ \ \ dataVector.clear();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00021}00021\ \ \ \ \ \textcolor{comment}{//\ Open\ data\ file}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00022}00022\ \ \ \ \ \textcolor{keywordflow}{if}\ (fileType\ ==\ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\_TSLOGGER\_CSV}})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00023}00023\ \ \ \ \ \ \ \ \ fopen\_s(\&(this-\/>logFilePtr),\ fileName,\ \textcolor{stringliteral}{"{}w+"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00024}00024\ \ \ \ \ \ \ \ \ setvbuf(logFilePtr,\ logBuffer,\ \_IOLBF,\ logBufferSize);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00025}00025\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00026}00026\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ fopen\_s(\&(this-\/>logFilePtr),\ fileName,\ \textcolor{stringliteral}{"{}wb+"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00028}00028\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00030}00030\ \ \ \ \ \textcolor{comment}{//\ Set\ internal\ parameters\ of\ the\ logger\ object}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00031}00031\ \ \ \ \ numHeaderLines\ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00032}00032\ \ \ \ \ dataVecLen\ \ \ \ \ \ =\ dataVector.size();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00034}00034\ \ \ \ \ canAddPreamble\ \ \ \ \ \ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00035}00035\ \ \ \ \ canAddDataHeader\ \ \ \ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00036}00036\ \ \ \ \ isLogggingStart\ \ \ \ \ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00039}00039\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00041}\mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{00041}}\ \mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{tsLogger::tsLogger}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00042}00042\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00043}00043\ \ \ \ \ logUnixTime\ \ \ \ \ =\ time(NULL);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00044}00044\ \ \ \ \ tm\ localTime;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00045}00045\ \ \ \ \ localtime\_s(\&localTime,\ \&logUnixTime);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00046}00046\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00047}00047\ \ \ \ \ snprintf(fileName,\ \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{fileNameLength}},\ \textcolor{stringliteral}{"{}\%s\(\backslash\)\(\backslash\)\%s\_\%04d-\/\%02d-\/\%02d-\/\%02d\%02d\%02d.csv"{}},}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ts_logger_8h_a71ec7de0d92134e60034b945b408ca12}{defaultFilePath}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*File\ directory*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ts_logger_8h_a31084eec743ae4de2ac3192db236e76e}{defaultFileName}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*File\ name\ prefix*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_year+1900,\ \ \ \ \ \textcolor{comment}{/*Current\ year*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_mon+1,\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Month*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_mday,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Date*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_hour,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Hour\ of\ day\ \ \ (24-\/hour\ mode)*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_min,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Minute\ of\ day\ (24-\/hour\ mode)*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_sec);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Seconds*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00056}00056\ \ \ \ \ fileType\ \ \ \ \ \ \ \ =\ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\_TSLOGGER\_CSV}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00057}00057\ \ \ \ \ logBufferSize\ \ \ =\ \mbox{\hyperlink{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}{defLogBufferSize}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00059}00059\ \ \ \ \ initLogger();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00060}00060\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00062}\mbox{\hyperlink{classts_logger_ac6db0a75dad8ca44fac768f500f17472}{00062}}\ \mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{tsLogger::tsLogger}}(\mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{tsLogFileType}}\ logFileType)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00063}00063\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00064}00064\ \ \ \ \ logUnixTime\ \ \ \ \ =\ time(NULL);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00065}00065\ \ \ \ \ tm\ localTime;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00066}00066\ \ \ \ \ localtime\_s(\&localTime,\ \&logUnixTime);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00068}00068\ \ \ \ \ snprintf(fileName,\ \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{fileNameLength}},\ \textcolor{stringliteral}{"{}\%s\(\backslash\)\(\backslash\)\%s\_\%04d-\/\%02d-\/\%02d-\/\%02d\%02d\%02d.csv"{}},}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ts_logger_8h_a71ec7de0d92134e60034b945b408ca12}{defaultFilePath}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*File\ directory*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{ts_logger_8h_a31084eec743ae4de2ac3192db236e76e}{defaultFileName}},\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*File\ name\ prefix*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_year+1990,\ \ \ \ \ \textcolor{comment}{/*Current\ year*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_mon+1,\ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Month*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_mday,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Date*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_hour,\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Hour\ of\ day\ \ \ (24-\/hour\ mode)*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_min,\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Minute\ of\ day\ (24-\/hour\ mode)*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ localTime.tm\_sec);\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{/*Current\ Seconds*/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00077}00077\ \ \ \ \ fileType\ \ \ \ \ \ \ \ =\ logFileType;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00078}00078\ \ \ \ \ logBufferSize\ \ \ =\ \mbox{\hyperlink{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}{defLogBufferSize}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00080}00080\ \ \ \ \ initLogger();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00081}00081\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00083}\mbox{\hyperlink{classts_logger_a8984146636e1a4910cabb8b66a4112ce}{00083}}\ \mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{tsLogger::tsLogger}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ logFileName)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00084}00084\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00085}00085\ \ \ \ \ logUnixTime\ \ \ \ \ =\ time(NULL);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00086}00086\ \ \ \ \ snprintf(fileName,\ \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{fileNameLength}},\ \textcolor{stringliteral}{"{}\%s"{}},\ logFileName);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00087}00087\ \ \ \ \ fileType\ \ \ \ \ \ \ \ =\ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\_TSLOGGER\_CSV}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00088}00088\ \ \ \ \ logBufferSize\ \ \ =\ \mbox{\hyperlink{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}{defLogBufferSize}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00090}00090\ \ \ \ \ initLogger();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00091}00091\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00093}\mbox{\hyperlink{classts_logger_a49967010390f1885dd9305d54715430d}{00093}}\ \mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{tsLogger::tsLogger}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ logFileName,\ \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{tsLogFileType}}\ logFileType)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00094}00094\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00095}00095\ \ \ \ \ logUnixTime\ \ \ \ \ =\ time(NULL);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00096}00096\ \ \ \ \ snprintf(fileName,\ \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{fileNameLength}},\ \textcolor{stringliteral}{"{}\%s"{}},\ logFileName);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00097}00097\ \ \ \ \ fileType\ \ \ \ \ \ \ \ =\ logFileType;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00098}00098\ \ \ \ \ logBufferSize\ \ \ =\ \mbox{\hyperlink{ts_logger_8h_afeafcebf1c687608b6c0145b71ee2b17}{defLogBufferSize}};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00100}00100\ \ \ \ \ initLogger();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00101}00101\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00103}\mbox{\hyperlink{classts_logger_a433e54dbbf6260623b751a53f92c2b63}{00103}}\ \mbox{\hyperlink{classts_logger_aed3b2cc935551f58d7b84af41a4630f2}{tsLogger::tsLogger}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ logFileName,\ \mbox{\hyperlink{ts_logger_8h_a3aa5f25f81a740cd49dd41ec7e626dcc}{tsLogFileType}}\ logFileType,\ \textcolor{keywordtype}{size\_t}\ logBufferMaxSize)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00104}00104\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00105}00105\ \ \ \ \ logUnixTime\ \ \ \ \ =\ time(NULL);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00106}00106\ \ \ \ \ snprintf(fileName,\ \mbox{\hyperlink{ts_logger_8h_a34cedc7be0e552262391e66b2b8f37ed}{fileNameLength}},\ \textcolor{stringliteral}{"{}\%s"{}},\ logFileName);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00107}00107\ \ \ \ \ fileType\ \ \ \ \ \ \ \ =\ logFileType;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00108}00108\ \ \ \ \ logBufferSize\ \ \ =\ logBufferMaxSize;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00110}00110\ \ \ \ \ initLogger();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00111}00111\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00113}\mbox{\hyperlink{classts_logger_a722c13d2683e994fbc0be8a69b474186}{00113}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_a722c13d2683e994fbc0be8a69b474186}{tsLogger::getFilePath}}(\textcolor{keywordtype}{char}*\ pathDestination,\ \textcolor{keywordtype}{size\_t}\ pathDestinationLength)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00114}00114\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00115}00115\ \ \ \ \ strcpy\_s(pathDestination,\ pathDestinationLength,\ this-\/>fileName);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00116}00116\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00118}\mbox{\hyperlink{classts_logger_a95f4541f7497dc8a9a70256817596e68}{00118}}\ \textcolor{keywordtype}{size\_t}\ \mbox{\hyperlink{classts_logger_a95f4541f7497dc8a9a70256817596e68}{tsLogger::getNumDataPoints}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00119}00119\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{return}\ dataVecLen;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00121}00121\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00123}\mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{00123}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_a09225747ea0f33ee9ff51ede8edd7733}{tsLogger::appendToPreamble}}(std::string\ appendString)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00124}00124\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00125}00125\ \ \ \ \ std::replace(appendString.begin(),\ appendString.end(),\ \textcolor{charliteral}{'\(\backslash\)n'},\ \textcolor{charliteral}{'\ '});\ \textcolor{comment}{//\ replace\ all\ new\ line\ characters\ with\ spaces.}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00126}00126\ \ \ \ \ this-\/>preamble.append(appendString);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00127}00127\ \ \ \ \ this-\/>preamble.push\_back(\textcolor{charliteral}{'\(\backslash\)n'});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00128}00128\ \ \ \ \ this-\/>numHeaderLines++;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00129}00129\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00131}\mbox{\hyperlink{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}{00131}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_aace7eb3ba1c485dde9c9aa702cc26faf}{tsLogger::addPreamble}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00132}00132\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00133}00133\ \ \ \ \ \textcolor{comment}{//\ Can\ add\ preamble\ only\ if\ this\ is\ the\ first\ time\ you\ are\ adding\ it,}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00134}00134\ \ \ \ \ \textcolor{comment}{//\ and\ neither\ the\ dataHeader\ has\ been\ input\ nor\ the\ logging\ started.}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00135}00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (canAddPreamble\ ==\ \textcolor{keyword}{true}\ \&\&\ this-\/>canAddDataHeader\ ==\ \textcolor{keyword}{true}\ \&\&\ isLogggingStart\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ this-\/>numHeaderLines++;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%05d,\%lld\(\backslash\)n\%s"{}},\ this-\/>numHeaderLines,\ (\textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long})this-\/>logUnixTime,\ this-\/>preamble.c\_str());}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ canAddPreamble\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00139}00139\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00140}00140\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00142}\mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{00142}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_aa571d38f3f51f143703118a6092209ad}{tsLogger::addDataHeader}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00143}00143\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00144}00144\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>canAddDataHeader\ ==\ \textcolor{keyword}{true}\ \&\&\ isLogggingStart\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>canAddPreamble\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ fseek(this-\/>logFilePtr,\ 0,\ SEEK\_SET);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>numHeaderLines++;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%05d"{}},\ this-\/>numHeaderLines);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ fseek(this-\/>logFilePtr,\ 0,\ SEEK\_END);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ std::begin(this-\/>dataVector);\ it\ !=\ std::end(this-\/>dataVector);\ \textcolor{comment}{/*increment\ is\ in\ loop*/})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>fileType\ ==\ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\_TSLOGGER\_CSV}})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%s"{}},\ it-\/>dataName.c\_str());}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (++it\ !=\ this-\/>dataVector.end())\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{},"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ this-\/>canAddDataHeader\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00163}00163\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00166}\mbox{\hyperlink{classts_logger_a577a02d299b9c456ef15d320355d757c}{00166}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_a577a02d299b9c456ef15d320355d757c}{tsLogger::startLogger}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00167}00167\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00168}00168\ \ \ \ \ \textcolor{keywordflow}{if}\ (isLogggingStart\ ==\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ isLogggingStart\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00170}00170\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00171}00171\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00173}\mbox{\hyperlink{classts_logger_ad7a045a827393ee7854d710015c991c3}{00173}}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classts_logger_ad7a045a827393ee7854d710015c991c3}{tsLogger::logData}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00174}00174\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00175}00175\ \ \ \ \ \mbox{\hyperlink{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}{smartDataPtr}}\ dataPtr;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00176}00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (isLogggingStart\ !=\ \textcolor{keyword}{false})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classts_logger_a577a02d299b9c456ef15d320355d757c}{startLogger}}();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00178}00178\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00179}00179\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ std::begin(this-\/>dataVector);\ it\ !=\ std::end(this-\/>dataVector);\ \textcolor{comment}{/*increment\ is\ in\ loop*/})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>fileType\ ==\ \mbox{\hyperlink{ts_logger_8h_a056b56fcd1c45e4ba997f3c4ec49f46da62924e943345208f008e213f5e411482}{\_TSLOGGER\_CSV}})\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Handle\ variant\ types\ here}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ dataPtr\ =\ std::visit([](\textcolor{keyword}{auto}\&\&\ arg)\ -\/>\ \mbox{\hyperlink{ts_logger_8h_a1c6f3fd3f61cf671652c849facc1ec38}{smartDataPtr}}\ \{\textcolor{keywordflow}{return}\ arg;\},\ it-\/>dataPtr);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ std::visit([\textcolor{keyword}{this}](\textcolor{keyword}{auto}\&\&\ arg)\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{using\ }dataPtrType\ =\ std::decay\_t<\textcolor{keyword}{decltype}(arg)>;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ int*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ int*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%d"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ unsigned\ int*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ unsigned\ int*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%u"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ long*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ long*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%ld"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ unsigned\ long*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ unsigned\ long*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%lu"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ long\ long*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ long\ long*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%lld"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ unsigned\ long\ long*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ unsigned\ long\ long*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%llu"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ float*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ float*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%f"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ double*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ double*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%f"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ char*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ char*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%c"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ unsigned\ char*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ unsigned\ char*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%hhu"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ pointer\ is\ bool*}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (std::is\_same\_v<dataPtrType,\ bool*>)}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\%d"{}},\ *arg);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ handle\ unsupported\ variant\ visitor\ types\ of\ data\ pointer}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(always\_false\_v<dataPtrType>,\ \textcolor{stringliteral}{"{}tsLogger:\ FATAL\ ERROR:\ attempting\ to\ log\ unsupported\ data\ type!"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},\ dataPtr);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (++it\ !=\ this-\/>dataVector.end())\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{},"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fprintf(this-\/>logFilePtr,\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}});}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00233}00233\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00234}00234\ \}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00236}\mbox{\hyperlink{classts_logger_abfe5311d7c14b23f0c61df6ba741e9f5}{00236}}\ \mbox{\hyperlink{classts_logger_abfe5311d7c14b23f0c61df6ba741e9f5}{tsLogger::\string~tsLogger}}()}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00237}00237\ \{}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00238}00238\ \ \ \ \ \textcolor{comment}{//\ Flush\ buffer\ and\ close\ file}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00239}00239\ \ \ \ \ fflush(logFilePtr);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00240}00240\ \ \ \ \ fclose(logFilePtr);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00241}00241\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00242}00242\ \ \ \ \ \textcolor{comment}{//\ Free\ all\ dynamic\ memory\ allocated\ to\ logger\ object}}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00243}00243\ \ \ \ \ free(logBuffer);}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00244}00244\ \ \ \ \ dataVector.clear();}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00246}00246\ \ \ \ \ numHeaderLines\ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00247}00247\ \ \ \ \ dataVecLen\ \ \ \ \ \ =\ 0;}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00248}00248\ \ \ \ \ isLogggingStart\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{ts_logger_8cpp_source_l00249}00249\ \}}
+
+\end{DoxyCode}
