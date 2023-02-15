@@ -27,7 +27,7 @@ I will make DOXYGEN-generated documentation available as soon as I have a minute
 - Whenever you need to log the state of all the tracked variables, simply call `logData()` to store the state of all of the variables as a line in your file.
 - The first time you call this function (or manually if the user prefers), it calls `startLogger()` to indicate that loggging has started. This prevents the addition of preamble lines or a data header between the actual data as such a thing would corrupt the CSV data during ingestion.
 
-In `./tsLogger_example/main.cpp` (linked [here](https://solaremperor.github.io/tsLogger/main_8cpp.html)), you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
+In `./tsLogger_example/main.cpp` (linked [here](https://solaremperor.github.io/tsLogger/main_8cpp_source.html)), you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
 
 Doxygen-generated HTML documentation is available [here](https://solaremperor.github.io/tsLogger/).
 
