@@ -27,9 +27,9 @@ I will make DOXYGEN-generated documentation available as soon as I have a minute
 - Whenever you need to log the state of all the tracked variables, simply call `logData()` to store the state of all of the variables as a line in your file.
 - The first time you call this function (or manually if the user prefers), it calls `startLogger()` to indicate that loggging has started. This prevents the addition of preamble lines or a data header between the actual data as such a thing would corrupt the CSV data during ingestion.
 
-In `./tsLogger_example/main.cpp` (linked here), you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
+In `./tsLogger_example/main.cpp` (linked [here](https://solaremperor.github.io/tsLogger/main_8cpp.html)), you can find an example to get you started and its output is in `./tsLogger_example/testFile.csv`.
 
-Doxygen-generated HTML documentation is available here.
+Doxygen-generated HTML documentation is available [here](https://solaremperor.github.io/tsLogger/).
 
 ## Inspiration and learnings
 As someone working on neuro-robotics, and near-real-time data acquisition and controls, I need to work on high performance code. This means, I usually work with C/C++. I needed to track dozens of datapoints that were being updated simultaneously every _1 ms_ with minimal performance penalty. The simple _"Let's put an `fprintf` outputing CSV lines to a file in the control loop"_ approach worked great until I started making PEBCAK errors like incorrect format specifiers or mistakes passing all datapoints to the right thread and function. I wanted a fool-proof way to collect this streaming real-time data so long as the performance penalty was not crushing. So, I created this library. Along the way, I learning about some of the new features that modern has to offer to offer like `std::variant`, `std::vector`, template functions and classes, and even lambdas.
