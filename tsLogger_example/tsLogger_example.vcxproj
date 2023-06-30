@@ -24,13 +24,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\bin\win32\tsLogger.idb" />
-    <None Include="..\bin\win32\tsLogger.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\bin\win32\tsLogger.lib" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

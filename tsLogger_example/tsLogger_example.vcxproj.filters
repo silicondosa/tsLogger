@@ -24,11 +24,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\bin\win32\tsLogger.idb" />
-    <None Include="..\bin\win32\tsLogger.pdb" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\bin\win32\tsLogger.lib" />
-  </ItemGroup>
 </Project>
